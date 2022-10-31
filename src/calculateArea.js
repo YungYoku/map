@@ -19,17 +19,39 @@ const updateDomResult = result => {
 }
 
 const formatAreaToTrianglesArray = areaCoordinates => {
-    areaCoordinates.push(areaCoordinates[0]); // Потому что первая вершина является и последней
-    const length = areaCoordinates.length;
+    let length = areaCoordinates.length;
 
-    if (length === 4) {
+    if (length === 3) {
         return areaCoordinates;
     }
+
+
+    let isEverythingActivated = true;
 
     const triangles = [];
 
     for (let i = 0; i < length - 2; i += 2) {
-        triangles.push([areaCoordinates[i], areaCoordinates[i + 1], areaCoordinates[i + 2]])
+        const
+            first = areaCoordinates[i],
+            second = areaCoordinates[i + 1],
+            third = areaCoordinates[i + 2];
+
+        triangles.push([first, second, third]);
+        areaCoordinates[i + 1].active = false;
+
+        // После каждой итерации первая вершина треугольника
+        // добавляется в конец итерируемых вершин, чтобы продолжать генерировать
+        // треугольники, которые возникают внутри
+        areaCoordinates.push(areaCoordinates[i]);
+        length++;
+
+        if (areaCoordinates[i + 1].active) {
+            isEverythingActivated = false;
+        }
+
+        if (!isEverythingActivated && i >= length - 2) {
+            i = 0;
+        }
     }
 
     return triangles;
@@ -37,12 +59,10 @@ const formatAreaToTrianglesArray = areaCoordinates => {
 
 const calculateLineLength = (firstCoordinate, secondCoordinate) => {
     const
-        lon1 = firstCoordinate[0],
-        lat1 = firstCoordinate[1],
-        lon2 = secondCoordinate[0],
-        lat2 = secondCoordinate[1];
+        lat1 = firstCoordinate.lat,
+        lat2 = secondCoordinate.lat;
 
-    const lon = lon1 - lon2;
+    const lon = firstCoordinate.lon - secondCoordinate.lon;
 
     const earthR = 6370; // Радиус земли равен 6370 км
     const d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon));
@@ -66,12 +86,22 @@ const calculateTriangleArea = triangle => {
     );
 }
 
+const formatCoordinates = geoCoordinates => {
+    return geoCoordinates.map(item => {
+        return {
+            lat: item[0],
+            lon: item[1],
+            active: true
+        }
+    })
+}
+
 window.calculateArea = () => {
     // Разбиваем многоугольник на массив треугольников
     // Считаем расстояния между точками как длины дуг и находим площади треугольников
     // Складываем площади треугольников
 
-    const geoCoordinates = window.geoCoordinates;
+    const geoCoordinates = formatCoordinates(window.geoCoordinates);
     const length = geoCoordinates.length;
 
     if (length < 3) return;
