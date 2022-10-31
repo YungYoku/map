@@ -3,9 +3,15 @@
 
 let domResult = document.querySelector(".result");
 
+const resetCoordinates = () => {
+    window.geoCoordinates = [];
+}
+
 const updateDomResult = result => {
     if (domResult) {
-        domResult.innerHTML = `Площадь равна ${result.toFixed(2)}(км).`;
+        result = result.toFixed(6);
+        domResult.innerHTML = `Площадь равна ${result}(км²) | ${result * 1_000_000}(м²).`;
+        resetCoordinates();
     } else {
         domResult = document.querySelector(".result");
         updateDomResult(result);
@@ -13,10 +19,16 @@ const updateDomResult = result => {
 }
 
 const formatAreaToTrianglesArray = areaCoordinates => {
+    areaCoordinates.push(areaCoordinates[0]); // Потому что первая вершина является и последней
     const length = areaCoordinates.length;
+
+    if (length === 4) {
+        return areaCoordinates;
+    }
+
     const triangles = [];
 
-    for (let i = 0; i < length - 2; i++) {
+    for (let i = 0; i < length - 2; i += 2) {
         triangles.push([areaCoordinates[i], areaCoordinates[i + 1], areaCoordinates[i + 2]])
     }
 
