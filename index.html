@@ -13,10 +13,13 @@
 </head>
 <body>
 <div id="app">
-    <p class="tip">Чтобы включить режим рисования, нужно нажать левую кнопку мыши, зажав клавишу "alt".</p>
+    <div class="popup">
+        <p class="popup__text">Чтобы включить режим рисования, зажмите клавишу alt и левую кнопку мыши, а затем ведите
+            мышкой.</p>
+        <button class="popup__button">Закрыть</button>
+    </div>
     <div id="map"></div>
-    <!--<canvas id="draw-canvas"></canvas>-->
-    <div class="result">Площадь равна 0(км²) | 0(м²).</div>
+    <div class="result">Площадь = 0(км²) | 0(м²).</div>
 </div>
 <script src="/src/main.js" type="module"></script>
 </body>
