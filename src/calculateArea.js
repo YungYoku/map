@@ -15,9 +15,9 @@ const updateDomResult = (result) => {
     if (isNaN(result)) {
       domResult.innerHTML = `Ошибка.`;
     } else {
-      domResult.innerHTML = `Площадь = ${result}(км²) | ${
+      domResult.innerHTML = `Площадь = ${result}(км²) | ${Math.round(
         result * 1_000_000
-      }(м²).`;
+      )}(м²).`;
     }
     resetCoordinates();
   } else {
@@ -103,13 +103,19 @@ export const formatCoordinatesToNumbersArray = (geoCoordinates) => {
   });
 };
 
-window.calculateArea = () => {
+window.calculateArea = (coordinates) => {
   // Разбиваем многоугольник на массив треугольников
   // Считаем расстояния между точками как длины дуг и находим площади треугольников
   // Складываем площади треугольников
 
-  const geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
-  window.geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
+  let geoCoordinates;
+  if (coordinates) {
+    geoCoordinates = formatCoordinatesToLatLonArray(coordinates);
+  } else {
+    geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
+    addToDB("Title", formatCoordinatesToLatLonArray(window.geoCoordinates));
+  }
+
   const length = geoCoordinates.length;
 
   if (length < 3) return;
@@ -120,6 +126,5 @@ window.calculateArea = () => {
     result += calculateTriangleArea(triangle);
   });
 
-  addToDB("Title", window.geoCoordinates);
   updateDomResult(result);
 };

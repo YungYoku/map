@@ -77,6 +77,10 @@ export const addObjectToMap = (coordinates, title = "", fromBd = false) => {
       styles[currentIndex]
     );
 
+    geoObject.events.add("mousedown", () => {
+      window.calculateArea(coordinates);
+    });
+
     map.geoObjects.add(geoObject);
     window.calculateArea();
   }
