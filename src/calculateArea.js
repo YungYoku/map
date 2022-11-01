@@ -18,7 +18,6 @@ const updateDomResult = (result) => {
       domResult.innerHTML = `Площадь = ${result}(км²) | ${
         result * 1_000_000
       }(м²).`;
-      addToDB("Title", window.geoCoordinates);
     }
     resetCoordinates();
   } else {
@@ -90,15 +89,6 @@ const calculateTriangleArea = (triangle) => {
 };
 
 const formatCoordinatesToLatLonArray = (geoCoordinates) => {
-  console.log(geoCoordinates);
-  console.log(
-    geoCoordinates.map((item) => {
-      return {
-        lat: item[0],
-        lon: item[1],
-      };
-    })
-  );
   return geoCoordinates.map((item) => {
     return {
       lat: item[0],
@@ -118,8 +108,8 @@ window.calculateArea = () => {
   // Считаем расстояния между точками как длины дуг и находим площади треугольников
   // Складываем площади треугольников
 
-  const geoCoordinates = (window.geoCoordinates =
-    formatCoordinatesToLatLonArray(window.geoCoordinates));
+  const geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
+  window.geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
   const length = geoCoordinates.length;
 
   if (length < 3) return;
@@ -130,5 +120,6 @@ window.calculateArea = () => {
     result += calculateTriangleArea(triangle);
   });
 
+  addToDB("Title", window.geoCoordinates);
   updateDomResult(result);
 };

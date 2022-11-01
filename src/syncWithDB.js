@@ -38,9 +38,9 @@ const loadPoints = async (id) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    const points = docSnap.data().points;
-    if (points) {
-      return points;
+    const data = docSnap.data();
+    if (data) {
+      return data;
     }
   } else {
     console.log("No such document!");
@@ -51,7 +51,11 @@ export const drawFromDB = async () => {
   const ids = await loadIds();
   for (let id of ids) {
     id = id.replace(/\s/gi, "");
-    const points = await loadPoints(id);
-    addObjectToMap(formatCoordinatesToNumbersArray(points), true);
+    const data = await loadPoints(id);
+    addObjectToMap(
+      formatCoordinatesToNumbersArray(data.points),
+      data.title,
+      true
+    );
   }
 };

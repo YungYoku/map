@@ -63,7 +63,7 @@ const handleMouseUp = (event) => {
   }
 };
 
-export const addObjectToMap = (coordinates, fromBd = false) => {
+export const addObjectToMap = (coordinates, title = "", fromBd = false) => {
   if (paintProcess || fromBd) {
     const length = coordinates.length;
     if (length < 3) return;
@@ -71,7 +71,9 @@ export const addObjectToMap = (coordinates, fromBd = false) => {
 
     const geoObject = new ymaps.Polygon(
       [coordinates],
-      {},
+      {
+        balloonContent: title,
+      },
       styles[currentIndex]
     );
 
