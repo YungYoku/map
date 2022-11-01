@@ -6,6 +6,7 @@ import "./popup.js";
 import "./drawButton.js";
 import "./syncWithDB.js";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -18,4 +19,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const db = getFirestore();
 export const analytics = getAnalytics(app);
