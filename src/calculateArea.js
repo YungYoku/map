@@ -90,6 +90,15 @@ const calculateTriangleArea = (triangle) => {
 };
 
 const formatCoordinatesToLatLonArray = (geoCoordinates) => {
+  console.log(geoCoordinates);
+  console.log(
+    geoCoordinates.map((item) => {
+      return {
+        lat: item[0],
+        lon: item[1],
+      };
+    })
+  );
   return geoCoordinates.map((item) => {
     return {
       lat: item[0],
