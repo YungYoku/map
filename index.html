@@ -14,13 +14,28 @@
 <body>
 <div id="app">
     <div class="popup">
-        <p class="popup__text">Чтобы включить режим рисования, зажмите клавишу alt и левую кнопку мыши, а затем ведите
-            мышкой.</p>
-        <button class="popup__button">Закрыть</button>
+        <p class="popup__text">
+            Чтобы включить режим рисования, зажмите клавишу alt и левую кнопку мыши,
+            а затем ведите мышкой.
+        </p>
+        <button class="popup__button" type="button">
+            Закрыть
+        </button>
     </div>
+
     <div id="map"></div>
-    <div class="result">Площадь = 0(км²) | 0(м²).</div>
+
+    <div class="info">
+        <div class="result">
+            Площадь = 0(км²) | 0(м²).
+        </div>
+
+        <button class="draw__button" type="button">
+            Рисовать
+        </button>
+    </div>
 </div>
+
 <script src="/src/main.js" type="module"></script>
 </body>
 </html>
