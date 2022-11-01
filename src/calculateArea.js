@@ -57,24 +57,29 @@ const formatAreaToTrianglesArray = areaCoordinates => {
     return triangles;
 }
 
-const calculateLineLength = (firstCoordinate, secondCoordinate) => {
-    const
-        lat1 = firstCoordinate.lat,
-        lat2 = secondCoordinate.lat;
+const deg2rad = deg => {
+    return deg * (Math.PI / 180)
+}
 
-    const lon = firstCoordinate.lon - secondCoordinate.lon;
+const getDistanceFromLatLonInKm = (firstCoordinate, secondCoordinate) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(secondCoordinate.lat - firstCoordinate.lat);
+    const dLon = deg2rad(secondCoordinate.lon - firstCoordinate.lon);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(firstCoordinate.lat)) * Math.cos(deg2rad(secondCoordinate.lat)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-    const earthR = 6370; // Радиус земли равен 6370 км
-    const d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon));
-
-    return earthR * d / 100;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    return d;
 }
 
 const calculateTriangleArea = triangle => {
     const lines = [];
-    lines[0] = calculateLineLength(triangle[0], triangle[1]);
-    lines[1] = calculateLineLength(triangle[1], triangle[2]);
-    lines[2] = calculateLineLength(triangle[0], triangle[2]);
+    lines[0] = getDistanceFromLatLonInKm(triangle[0], triangle[1]);
+    lines[1] = getDistanceFromLatLonInKm(triangle[1], triangle[2]);
+    lines[2] = getDistanceFromLatLonInKm(triangle[0], triangle[2]);
 
     const perimeterHalf = (lines[0] + lines[1] + lines[2]) / 2;
 
