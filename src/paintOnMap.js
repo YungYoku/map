@@ -14,7 +14,7 @@ ymaps.modules.define(
       strokeWidth: 1,
       strokeOpacity: 1,
     };
-    const DEFAULT_TOLERANCE = 16;
+    const DEFAULT_TOLERANCE = 50;
 
     const badFinishPaintingCall = function () {
       throw new Error(

@@ -60,7 +60,7 @@ ymaps
     // Подпишемся на событие нажатия кнопки мыши.
     map.events.add("mousedown", function (e) {
       // Если кнопка мыши была нажата с зажатой клавишей "alt", то начинаем рисование контура.
-      if (e.get("altKey") || window.drawTurnedOn) {
+      if (e.get("ctrlKey") || window.drawTurnedOn) {
         if (currentIndex === styles.length - 1) {
           currentIndex = 0;
         } else {
