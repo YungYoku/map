@@ -1,7 +1,7 @@
 //lat - широта | 1° широты = 111.32 (км)
 //lon - долгота | 1° долготы = 40075 * cos(широта) / 360 (км)
 
-import { addToDB } from "./syncWithDB.js";
+import { addToDB } from "./api.js";
 
 let domResult = document.querySelector(".result");
 

@@ -1,9 +1,9 @@
-const popup = document.querySelector(".popup");
-const text = document.querySelector(".popup__text");
-const button = document.querySelector(".popup__button");
+const popupTip = document.querySelector(".popup__tip");
+const text = popupTip.querySelector(".popup__text");
+const button = popupTip.querySelector(".popup__button");
 
 button.addEventListener("click", () => {
-  popup.classList.add("hide");
+  popupTip.classList.add("hide");
 });
 
 if (

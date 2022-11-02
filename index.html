@@ -13,11 +13,27 @@
 </head>
 <body>
 <div id="app">
-    <div class="popup">
-        <p class="popup__text"></p>
-        <button class="popup__button" type="button">
-            Закрыть
-        </button>
+    <div class="popup popup__tip">
+        <div class="wrap">
+            <p class="popup__text"></p>
+
+            <button class="popup__button" type="button">
+                Закрыть
+            </button>
+        </div>
+    </div>
+
+    <div class="popup popup__name hide">
+        <div class="wrap">
+            <div class="name">
+                <label for="name">Название:</label>
+                <input id="name" type="text">
+            </div>
+
+            <button class="popup__button" type="button">
+                Добавить
+            </button>
+        </div>
     </div>
 
     <div id="map"></div>

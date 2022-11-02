@@ -1,4 +1,4 @@
-import { drawFromDB } from "./syncWithDB.js";
+import { drawFromDB } from "./api.js";
 
 let map;
 
