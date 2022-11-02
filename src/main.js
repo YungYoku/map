@@ -3,7 +3,7 @@ import "./mapInit.js";
 import "./paintOnMap.js";
 import "./calculateArea.js";
 import "./popupTip.js";
-import "./popupName.js";
+import "./popupAddObjectForm.js";
 import "./drawingButtonHandler.js";
 import "./api.js";
 import { initializeApp } from "firebase/app";

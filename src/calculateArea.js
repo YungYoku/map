@@ -1,13 +1,9 @@
 //lat - широта | 1° широты = 111.32 (км)
 //lon - долгота | 1° долготы = 40075 * cos(широта) / 360 (км)
 
-import { addToDB } from "./api.js";
+import { showAddObjectPopup } from "./popupAddObjectForm.js";
 
 let domResult = document.querySelector(".result");
-
-const resetCoordinates = () => {
-  window.geoCoordinates = [];
-};
 
 const updateDomResult = (result) => {
   if (domResult) {
@@ -19,7 +15,6 @@ const updateDomResult = (result) => {
         result * 1_000_000
       )}(м²).`;
     }
-    resetCoordinates();
   } else {
     domResult = document.querySelector(".result");
     updateDomResult(result);
@@ -88,7 +83,7 @@ const calculateTriangleArea = (triangle) => {
   );
 };
 
-const formatCoordinatesToLatLonArray = (geoCoordinates) => {
+export const formatCoordinatesToLatLonArray = (geoCoordinates) => {
   return geoCoordinates.map((item) => {
     return {
       lat: item[0],
@@ -103,7 +98,7 @@ export const formatCoordinatesToNumbersArray = (geoCoordinates) => {
   });
 };
 
-window.calculateArea = (coordinates) => {
+window.calculateArea = async (coordinates) => {
   // Разбиваем многоугольник на массив треугольников
   // Считаем расстояния между точками как длины дуг и находим площади треугольников
   // Складываем площади треугольников
@@ -117,7 +112,7 @@ window.calculateArea = (coordinates) => {
     const length = geoCoordinates.length;
     if (length < 3) return;
 
-    addToDB("Title", formatCoordinatesToLatLonArray(window.geoCoordinates));
+    showAddObjectPopup();
   }
 
   let result = 0;
