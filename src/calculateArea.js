@@ -30,7 +30,7 @@ const formatAreaToTrianglesArray = (areaCoordinates) => {
   let length = areaCoordinates.length;
 
   if (length === 3) {
-    return areaCoordinates;
+    return [areaCoordinates];
   }
 
   const triangles = [];
@@ -113,12 +113,12 @@ window.calculateArea = (coordinates) => {
     geoCoordinates = formatCoordinatesToLatLonArray(coordinates);
   } else {
     geoCoordinates = formatCoordinatesToLatLonArray(window.geoCoordinates);
+
+    const length = geoCoordinates.length;
+    if (length < 3) return;
+
     addToDB("Title", formatCoordinatesToLatLonArray(window.geoCoordinates));
   }
-
-  const length = geoCoordinates.length;
-
-  if (length < 3) return;
 
   let result = 0;
   const triangles = formatAreaToTrianglesArray(geoCoordinates);
