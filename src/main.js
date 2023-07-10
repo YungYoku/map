@@ -1,24 +1,24 @@
+import { createApp } from "vue";
 import "./style.scss";
-import "./mapInit.js";
-import "./paintOnMap.js";
-import "./calculateArea.js";
-import "./popupTip.js";
-import "./popupAddObjectForm.js";
-import "./drawingButtonHandler.js";
-import "./api.js";
+import App from "./App.vue";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import router from "./router";
+
+const app = createApp(App);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCOhLJWkA0_DmcswK8rTATRa8otZvhliWQ",
-  authDomain: "ya-map-1.firebaseapp.com",
-  projectId: "ya-map-1",
-  storageBucket: "ya-map-1.appspot.com",
-  messagingSenderId: "609562060509",
-  appId: "1:609562060509:web:59a6a36bc1e1bef1dfdd34",
+    apiKey: "AIzaSyCXox5PaAAMz0Oa7IEY0704Jj1XYBXWSlM",
+    authDomain: "ya-map-5c603.firebaseapp.com",
+    projectId: "ya-map-5c603",
+    storageBucket: "ya-map-5c603.appspot.com",
+    messagingSenderId: "102197101284",
+    appId: "1:102197101284:web:9f304ba166638d42da62f1"
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 export const db = getFirestore();
-export const analytics = getAnalytics(app);
+
+app.use(router);
+
+app.mount("#app");

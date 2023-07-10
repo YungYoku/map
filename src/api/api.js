@@ -6,9 +6,9 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "./main.js";
-import { addObjectToMap } from "./mapInit.js";
-import { formatCoordinatesToNumbersArray } from "./calculateArea.js";
+import { db } from "../main";
+import { addObjectToMap } from "./mapInit";
+import { formatCoordinatesToNumbersArray } from "./calculateArea";
 
 export const addToDB = async (title = "Title", points = []) => {
   const areaRef = await addDoc(collection(db, "areas"), {
