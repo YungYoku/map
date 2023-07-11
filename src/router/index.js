@@ -1,21 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/HomeView.vue";
-import Auth from "../views/AuthView.vue";
+import HomeView from "@/views/HomeView.vue";
+import LoginView from "@/views/LoginView.vue";
+import RegView from "@/views/RegView.vue";
 
 const routes = [
     {
         path: "/",
         name: "Home",
-        component: Home,
+        component: HomeView,
         meta: {
             auth: true
         },
     },
 
     {
-        path: "/auth",
-        name: "Auth",
-        component: Auth,
+        path: "/login",
+        name: "Login",
+        component: LoginView,
+        meta: {
+            auth: false
+        },
+    },
+    {
+        path: "/reg",
+        name: "Register",
+        component: RegView,
         meta: {
             auth: false
         },
@@ -33,7 +42,7 @@ router.beforeEach((to) => {
         if (logged) {
             return true;
         } else {
-            return "/auth";
+            return "/login";
         }
     }
 

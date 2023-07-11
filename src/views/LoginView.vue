@@ -1,17 +1,26 @@
 <template>
-  <form @submit.prevent="login">
-    <input v-model.trim="email" type="text"/>
+  <div class="wrap">
+    <form @submit.prevent="login">
+      <h1>Вход</h1>
 
-    <input v-model.trim="password" type="text"/>
+      <input v-model.trim="email" type="text"/>
 
-    <button>Войти</button>
-  </form>
+      <input v-model.trim="password" type="text"/>
+
+      <button>Войти</button>
+    </form>
+
+    <router-link to="/reg">Зарегистрироваться</router-link>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useAuthStore } from "@/store/auth.js";
+
+const auth = useAuthStore();
 
 const router = useRouter();
 
@@ -19,7 +28,7 @@ const email = ref("");
 const password = ref("");
 
 const handleResponse = async (response) => {
-  localStorage.uid = response.user.uid;
+  auth.setUid(response.user.uid);
   await router.push("/");
 };
 
@@ -35,6 +44,16 @@ const login = async () => {
 </script>
 
 <style scoped>
+.wrap {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
 form {
   width: 300px;
 
@@ -43,7 +62,5 @@ form {
   justify-content: center;
   flex-direction: column;
   gap: 20px;
-
-  margin: auto;
 }
 </style>

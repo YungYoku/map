@@ -32,18 +32,23 @@
     <button class="draw__button" type="button">
       {{ buttonText }}
     </button>
+
+    <button type="button" @click="logout">Выход</button>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
-import "@/api/mapInit.js";
-import "@/api/paintOnMap.js";
-import "@/api/calculateArea.js";
-import "@/api/api.js";
-import { addToDB } from "@/api/api.js";
+import "../api";
 import { formatCoordinatesToLatLonArray } from "@/api/calculateArea.js";
+import { handleMousedown, handleMouseUp } from "@/api/mapInit.js";
+import { useApiStore } from "@/store/api.js";
+import { useAuthStore } from "@/store/auth.js";
+
+const api = useApiStore();
+const router = useRouter();
 
 const tipText = ref("");
 const buttonText = ref("");
@@ -78,6 +83,25 @@ onMounted(() => {
     tipText.value = "Чтобы включить режим рисования, зажмите клавишу ctrl и левую кнопку мыши, а затем ведите мышкой.";
     document.querySelector(".draw__button").classList.add("hide");
   }
+
+  // eslint-disable-next-line no-undef
+  ymaps
+      .ready(["ext.paintOnMap"])
+      .then(async () => {
+        // eslint-disable-next-line no-undef
+        map = new ymaps.Map("map", {
+          center: [55.75, 37.62],
+          zoom: 14,
+          controls: [],
+        });
+
+        // eslint-disable-next-line no-undef
+        map.events.add("mousedown", handleMousedown);
+        // eslint-disable-next-line no-undef
+        map.events.add("mouseup", handleMouseUp);
+        await api.drawFromDB();
+      })
+      .catch(console.error);
 });
 
 
@@ -93,10 +117,18 @@ const add = async () => {
   const title = addingName.value;
   if (title) {
     hideAddObjectPopup();
-    await addToDB(title, formatCoordinatesToLatLonArray(window.geoCoordinates));
+    await api.addToDB(title, formatCoordinatesToLatLonArray(window.geoCoordinates));
     resetCoordinates();
     addingName.value = "";
   }
+};
+
+const logout = () => {
+  const auth = useAuthStore();
+
+  auth.$reset();
+  localStorage.clear();
+  router.push("/login");
 };
 </script>
 

@@ -100,7 +100,7 @@ export const formatCoordinatesToNumbersArray = (geoCoordinates) => {
     });
 };
 
-window.calculateArea = async (coordinates) => {
+export const calculateArea = (coordinates) => {
     // Разбиваем многоугольник на массив треугольников
     // Считаем расстояния между точками как длины дуг и находим площади треугольников
     // Складываем площади треугольников

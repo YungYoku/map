@@ -4,8 +4,10 @@ import App from "./App.vue";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import router from "./router";
+import { createPinia } from "pinia";
 
 const app = createApp(App);
+app.use(createPinia());
 
 const firebaseConfig = {
     apiKey: "AIzaSyCXox5PaAAMz0Oa7IEY0704Jj1XYBXWSlM",

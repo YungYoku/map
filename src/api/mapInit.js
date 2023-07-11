@@ -1,8 +1,8 @@
-import { drawFromDB } from "./api";
+import { calculateArea } from "@/api/calculateArea.js";
 
-let map;
+window.map = null;
 
-const styles = [
+export const styles = [
     {
         strokeColor: "#ff00ff",
         strokeOpacity: 0.7,
@@ -42,21 +42,21 @@ const styles = [
 let currentIndex = 0;
 let paintProcess;
 
-const handleMousedown = (event) => {
+export const handleMousedown = (event) => {
     if (event.get("ctrlKey") || window.drawTurnedOn) {
         if (currentIndex === styles.length - 1) {
             currentIndex = 0;
         } else {
             currentIndex += 1;
         }
-// eslint-disable-next-line no-undef
+        // eslint-disable-next-line no-undef
         paintProcess = ymaps.ext.paintOnMap(map, event, {
             style: styles[currentIndex],
         });
     }
 };
 
-const handleMouseUp = (event) => {
+export const handleMouseUp = (event) => {
     if (paintProcess) {
         // Получаем координаты отрисованного контура.
         const coordinates = paintProcess.finishPaintingAt(event);
@@ -80,27 +80,11 @@ export const addObjectToMap = (coordinates, title = "", fromBd = false) => {
         );
 
         geoObject.events.add("mousedown", () => {
-            window.calculateArea(coordinates);
+            calculateArea(coordinates);
         });
 
+        // eslint-disable-next-line no-undef
         map.geoObjects.add(geoObject);
-        window.calculateArea();
+        calculateArea();
     }
 };
-
-// eslint-disable-next-line no-undef
-ymaps
-    .ready(["ext.paintOnMap"])
-    .then(function () {
-// eslint-disable-next-line no-undef
-        map = new ymaps.Map("map", {
-            center: [55.75, 37.62],
-            zoom: 14,
-            controls: [],
-        });
-
-        map.events.add("mousedown", handleMousedown);
-        map.events.add("mouseup", handleMouseUp);
-        drawFromDB();
-    })
-    .catch(console.error);
